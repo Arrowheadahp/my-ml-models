@@ -1,0 +1,22 @@
+Here is a new Preprocessing pipeline that must be implemented:
+
+0. Concatenate the train and test dataset but without the y value.
+
+1. first thing to do is to one hot encode every object features and the features that have discrret values (may be number of unique <= 12)
+
+2. Scale the whole dataset. use powertransformer() to do this or standardscaler().
+
+3. for every feature that have >0 number of null values: make a column to indicate the which datapoint has null value like x_is_null feature.
+
+4. use an imputer KNNImputer preferred
+
+5. Use a KNNregressor to try to classify train datapoint from test datapoint. Use the predictions of the regressor to find the train datapoints that most resembles the test datapoints
+	Plop the top 25% into Validation dataset
+	
+5.5 You can check for unwanted or duplicate columns or you can pass that burden to the next step
+	
+6. Use RFECV to get the features most important to predicting y. Use only train data (not val data) for this and from now on. Use LGBM for this.
+
+7. reduce all the datasets to include only the features that we get from RFECV.
+
+wallah... we have a scaled dataset that has no null values and good val and test dataset as well.
